@@ -40,11 +40,34 @@ Meteor的模板使用的语言是私有的spacebars语言，它基于流行的ha
 上图中，a.css和b.css的内容将被合并为一个文件，并在最终呈现给用户的HTML文档中， 使用link标签引用这个文件。
 
 
+3. 代码文件 - main.js
 
+   main.js是最有趣的文件，Meteor将在前端和后端同时运行这个文件。可以这样理解：
 
+       . 前端 - Meteor将在最终呈现给用户的HTML文档中使用script标签引用test.js
+       . 后端 - Meteor将通过NodeJS读入并运行test.js
 
+   毫无疑问，如果不做任何处理，谁也没法保证一段JS代码既可以在前端浏览器环境中运行， 也可以在后端NodeJS中运行。在main.js中，我们需要判断当前的具体运行环境，以便 执行相应的代码。
 
+   ≡ 判断代码执行环境 —— Meteor.isClient/Meteor.isServer
 
+   让同一个js文件即可以跑在前端，也可以跑在后端（比如NodeJS），已经有很多 应用了，只需要判断下在某个特定环境才存在的变量就可以了（比如，NodeJS有global，而 浏览器有window）。Meteor提供了一组更加清晰的API来实现这个判断：
+
+       Meteor.isClient - 为真时，表示当前运行环境为前端
+       Meteor.isServer - 为真时，表示当前运行环境为后端
+
+   你可以看到，在main.js中也是这么做的：
+    ```
+    //test.js
+    if(Meteor.isClient){
+      //仅在前端执行的代码块
+    }
+    if(Meteor.isServer){
+      //仅在后端执行的代码块
+    }
+    ```
+
+    运行应用后，你将在后台的终端中看到Hello,Meteor!，也将在前台的调试台 中看到相同的输出。
 
 
 
