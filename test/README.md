@@ -26,3 +26,7 @@ Meteor的模板使用的语言是私有的spacebars语言，它基于流行的ha
 特殊的template标签用来定义一个子模板。
 
 {{counter}}模板标签执行插值工作，Meteror将在最终呈现给用户的HTML文档中，使用 标识符counter对应的值进行原地替换。
+
+> 运行结果
+
+![](result.jpg)
