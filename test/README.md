@@ -87,4 +87,49 @@ Meteor的模板使用的语言是私有的spacebars语言，它基于流行的ha
 
 而通过模板实例对象的events方法，则为模板中的button元素挂接了click事件监听处理 函数。
 
+5. 前端代码 - 模板标签标识符解析/helper
+
+   使用Template.hello.helpers(helpers)方法声明hello模板中模板标签标识符 的解析函数。参数helpers是一个JS对象，属性表示应用在模板标签中的标识符，值 通常是一个函数，被称为helper，大致是帮助Meteor解析模板中的标识符的值 这样的意思。
+
+   比如，在main.js中我们为hello模板中出现在{{counter}}模板标签中的counter表达式声明其对应的helper函数：
+   ```
+   //test.js
+   Template.hello.helpers({
+     'counter':function(){
+       return Session.get('counter');
+     }
+   });
+   ```
+   每次当Meteor需要对模板标签{{counter}}进行计算时，都将调用其counter标识符 对应的helper函数进行计算：它简单地返回Session变量counter的当前值。
+
+   ≡ 为helper函数设定参数
+
+   helper函数可以接受参数，比如对于模板main中的displayName标识符：
+   ```
+   <template name="test">
+     <h1>Hello,{{displayName "Jason" "Mr."}}!</h1>
+   </template>
+   ```
+   声明如下的helper函数：
+   ```
+   Template.test.helpers({
+     'displayName' : function(name,title){
+       return title + ' ' + name;
+     }
+   });
+   ```
+   那么Meteor渲染后将获得如下的HTML结果：
+   ```
+   <h1>Hello,Mr. Jason!</h1>
+   ```
+   ≡ 使用常量helper
+
+   当然，也可以将helper定义为一个常量：
+   ```
+   Template.test.helpers({
+     displayName : "Mr. WHOAMI"
+   })
+   ```
+   这时，模板标签{{displayName}}将永远地被设定为固定的值了。
+
 
