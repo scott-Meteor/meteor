@@ -69,9 +69,22 @@ Meteor的模板使用的语言是私有的spacebars语言，它基于流行的ha
 
     运行应用后，你将在后台的终端中看到Hello,Meteor!，也将在前台的调试台 中看到相同的输出。
 
+4. 前端代码 - 模板实例对象
 
+   回忆下，在模板文件main.html中，我们定义了一个模板：
+   ```
+   <!--main.html-->
+   <template name="hello">
+     <button>Click Me</button>
+     <p>You've pressed the button {{counter}} times.</p>
+   </template>
+    ```
+   当Meteor运行这个应用时，将自动创建一个对应的模板实例对象:Template.hello。 对模板的数据绑定和事件绑定，这些通常需要使用JavaScript实现的功能，就通过这个对象来实现:
 
+![](template.jpg)
 
+在hello模板中，{{counter}}模板标签中的标识符couter的值，将由对应模板实例 对象的counter函数返回值决定，这个函数被称为模板的helper函数，使用模板实例的 helpers()方法声明模板标签中标识符对应的helper函数。
 
+而通过模板实例对象的events方法，则为模板中的button元素挂接了click事件监听处理 函数。
 
 
