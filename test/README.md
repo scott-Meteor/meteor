@@ -132,4 +132,33 @@ Meteor的模板使用的语言是私有的spacebars语言，它基于流行的ha
    ```
    这时，模板标签{{displayName}}将永远地被设定为固定的值了。
 
+6. 前端代码 - 模板事件绑定
 
+   使用Template.hello.events(eventMap)方法声明hello模板中DOM对象的事件绑定。 参数eventMap是一个JS对象，属性表示要处理的事件，值表示事件处理函数。
+
+   比如，在test.js中我们为hello模板中的所有DOM对象挂接点击事件监听函数：
+   ```
+   Template.hello.events({
+     'click':function(event,tpl){...}
+   })
+   ```
+   也可以使用CSS选择符为指定的DOM对象挂接监听事件：
+   ```
+   Template.hello.events({
+     'click button' : function(event,tpl){...}
+   });
+   ```
+   还可以同时为多个事件指定同一个监听函数：
+   ```
+   Template.hello.events({
+     'click button,keypress input':function(event,tpl){...}
+   });
+   ```
+   监听函数触发时，Meteor将传入两个参数：event表示DOM事件对象， 而tpl则代表触发事件的DOM对象所属的模板实例。通过tpl对象的jQuery 操作符可以轻松地进行DOM操作：
+   ```
+   Template.hello.events({
+     'click button#changetext':function(event,tpl){
+         tpl.$("input").text("what are you doing!");
+     }
+   });
+   ```
